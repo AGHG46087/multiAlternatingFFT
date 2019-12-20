@@ -24,6 +24,11 @@ const int REVERSE_THREAD_INTERVAL = 5 * MILLISECONDS;  // Seconds
 
 long lclTime = millis();
 
+// multiAlternatingFFT
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+
 int freqCounter = 0;
 int rotateFreqs = NUM_FREQS;
 char im[128], data[128]; // FFT requires an IM-aginary part and DATA part. 
