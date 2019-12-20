@@ -8,3 +8,8 @@
  * base code based on FFT library and code from the Arduino forums
  * 
  */
+#include <Adafruit_NeoPixel.h>
+#include <fix_fft.h>
+#include <Thread.h>
+#include <ThreadController.h>
+
