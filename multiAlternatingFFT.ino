@@ -80,6 +80,9 @@ void setup() {
 }
 
 void loop() {
+  int ledIndex = 0;
+  int lclVal = 0;
+
 
   VU_Controller.run(); // hit the Thread Controller run method.
 
