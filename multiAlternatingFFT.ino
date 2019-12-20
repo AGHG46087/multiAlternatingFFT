@@ -81,6 +81,27 @@ void setup() {
 
 void loop() {
 
+  offsetGreenHue += HUE_STEP_INCREMENT;
+  offsetBlueHue += HUE_STEP_INCREMENT;
+  if (offsetGreenHue >= HUE_MAX) offsetGreenHue = 0;
+  if (offsetBlueHue >= HUE_MAX) offsetBlueHue = 0;
+
+  for (int x=0; x < SEG; x++) {
+    for (int y=0; y < HEIGHT; y++) {
+      ledIndex = (x * HEIGHT) + y; 
+      if(reverse) { 
+          // Bump it a segment higher and take off the height
+        ledIndex = ((x+1) * HEIGHT) - y; 
+      }
+//      if (y < data_avgs[13-x]) { // 13-x reverses the bars so low to high frequences are represented from left to right.
+      if (y < data_avgs[rotateFreqs-x]) { // 13-x reverses the bars so low to high frequences are represented from left to right.
+        strip.setPixelColor(ledIndex, Wheel(map(data_avgs[y],0,HEIGHT,(int)offsetGreenHue, (int)offsetBlueHue)));
+      } else {
+        strip.setPixelColor(ledIndex, strip.Color(0,0,0));
+      }
+    } 
+  }
+
   strip.show();
 }
 
