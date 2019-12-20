@@ -1,0 +1,151 @@
+/*
+Below is the entirety of the source code, but the magic happens within this segment.
+
+// Loop for the number of samples to take from the analog signal
+for (int i = 0; i < 128; i++) {
+// Store the value from the from analog pin 0
+val = analogRead(A0);
+// Store a modified value into the arrays
+data[i] = val / 4 - 128;
+im[i] = 0;
+}
+
+// Run the fixed FFT function on the arrays
+fix_fft(data, im, 7, 0);
+
+Here you can see that the loop runs 128 times and this corresponds to reading the analog input 128 times. This data is then stored inside a data array which gets passed to the fix_fft library function. Within this function, it converts each of the analog values into their corresponding frequency levels. Almost all of the rest of the code is to control the LEDs themselves
+*/
+/* This section of code includes the necessary libraries to run our code properly
+// Adafruit_NeoPixel.h – Gives us commands to initialize and operate the NeoPixel LEDs
+// fix_fft.h – Gives us commands to run the Fast Fourier Transform (FFT)
+// avr/power.h – Reduces power consumption if the board runs AVR architecture */
+#include <Adafruit_NeoPixel.h>
+#include “fix_fft.h”
+#ifdef __AVR__
+#include <avr/power.h>
+#endif
+
+// Defines a global variable to store what pin the LED information will be sent from
+#define PIN 0
+
+// Variable arrays to store data from the analog signals and run through the FFT
+char im[128], data[128];
+
+/* Creates an instance of our strip of LEDs to run operations on
+// Parameter 1 = Number of pixels in strip
+// Parameter 2 = Arduino pin number to send data (most are valid)
+// Parameter 3 = pixel type flags, add together as needed:*/
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
+
+// The method that is run on start up for the board
+void setup(){
+// Sets the reference for the analog signals to the 5V default
+analogReference(DEFAULT);
+
+// Initializes the LED strip
+strip.begin();
+
+// Display the latest colors on the LED strip
+strip.show();
+};
+
+// The method that runs repeated until the board shuts off
+void loop(){
+// Sets the minimum and maximum ADC values
+int min=1024, max=0,val=0;
+
+// Loop for the number of samples to take from the analog signal
+for (int i = 0; i < 128; i++) {
+// Store the value from the from analog pin 0
+val = analogRead(A0);
+// Store a modified value into the arrays
+data[i] = val / 4 – 128;
+im[i] = 0;
+// If the incoming value exceeds the min or max, replace them
+if(val>max)
+max=val;
+if(val<min)
+min=val;
+}
+
+// Run the fixed FFT function on the arrays
+fix_fft(data, im, 7, 0);
+
+// Run the clearBars function to turn all LEDs off before adjusting levels
+clearBars();
+
+// Loop for each column of the visualizer (Indexed starting at 1 to avoid FFT errors)
+for (i = 1; i <= 10; i++) {
+// Store a modified version of the data values to filter noise and hum
+double dat = sqrt(data[i] * data[i] + im[i] * im[i]);
+// Send the data to the respective bar the visualizer to set its height
+setBar(i-1, dat);
+}
+};
+
+// A method that sets the height of a given column to represent the given data value
+void setBar(int bar, double dat){
+// Stores the bottom LED ID for the column
+int bottom;
+// Stores the threshold that is modified to compare all levels
+int threshold = 15;
+// Save six preset colors for each row of the visualizer
+uint32_t row6 = strip.Color(255, 0, 0);
+uint32_t row5 = strip.Color(255, 30, 0);
+uint32_t row4 = strip.Color(255, 63, 0);
+uint32_t row3 = strip.Color(45, 255, 20);
+uint32_t row2 = strip.Color(10, 255, 10);
+uint32_t row1 = strip.Color(0, 255, 0);
+
+// Checks if given bar is an even number
+if(bar % 2 == 0){
+// Set bottom to the address of the first LED in the column
+bottom = 6*bar;
+
+/* Checks if the given data value is above certain thresholds, and if its true // // enable the corresponding LED with the rows color. */
+if((dat*10) >= threshold*5){
+strip.setPixelColor(bottom+5, col6);
+}
+if((dat*10) >= threshold*4){
+strip.setPixelColor(bottom+4, col5);
+}
+if((dat*10) >= threshold*3){
+strip.setPixelColor(bottom+3, col4);
+}
+if((dat*10) >= threshold*2){
+strip.setPixelColor(bottom+2, col3);
+}
+if((dat*10) >= threshold){
+strip.setPixelColor(bottom+1, col2);
+}
+strip.setPixelColor(bottom, col1);
+
+// Run the show function of the LED strip to show the intensity change
+strip.show();
+}
+else{
+// Set bottom to the address of the first LED in the column
+bottom = 6*bar+5;
+
+/* Checks if the given data value is above certain thresholds, and if its true // // enable the corresponding LED with the rows color. */
+if((dat*10) >= threshold*5){
+strip.setPixelColor(bottom-5,col6);
+}
+if((dat*10) >= threshold*4){
+strip.setPixelColor(bottom-4, col5);
+}
+if((dat*10) >= threshold*3){
+strip.setPixelColor(bottom-3, col4);
+}
+if((dat*10) >= threshold*2){
+strip.setPixelColor(bottom-2, col3);
+}
+if((dat*10) >= threshold){
+strip.setPixelColor(bottom-1, col2);
+}
+strip.setPixelColor(bottom, col1);
+
+// Run the show function of the LED strip to show the intensity change
+strip.show();
+}
+};
