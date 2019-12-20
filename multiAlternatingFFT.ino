@@ -81,6 +81,20 @@ void setup() {
 
 void loop() {
 
+  VU_Controller.run(); // hit the Thread Controller run method.
+
+    // Rotate the frequency,  so it is a different position every so many cycles
+  if ( ++freqCounter > 1024 ) { rotateFreqs--;  }
+  if (rotateFreqs <= 0 ) { rotateFreqs = NUM_FREQS; freqCounter = 0; }
+
+
+  for (i=0; i < 128; i++){ 
+    lclVal = 5000 * analogRead(AUDIOPIN); // analog sig not detected from laptop audio out. scale to 5000  
+    lclVal = abs((int)lclVal % 128);
+    data[i] = lclVal;
+    im[i] = 0;
+  };
+
     /* 
      *  Frequency Sprectum this bad boy
      * 1. data array
