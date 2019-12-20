@@ -104,4 +104,18 @@ void reverseToggle() {
 }
 void segmentChange() {
   segmentThread.enabled = false;
+  long now = millis();
+//  Serial.print("Callback: Time Passed : "); Serial.println(now - lclTime);
+  lclTime = now;
+  
+    // Every so many cycles, change the graph from a 6x10 to a 10x6 display
+  if( segmentOne ) {
+    HEIGHT = NUM_PIXELS/6;
+    SEG = NUM_PIXELS/10;
+  }
+  else {
+      // Reset the graph to a 6x10
+    HEIGHT = NUM_PIXELS/10;
+    SEG = NUM_PIXELS/6;
+  }
 }
