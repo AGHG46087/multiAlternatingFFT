@@ -102,3 +102,6 @@ void reverseToggle() {
   reverse = !reverse;
 //  Serial.print("Callback: Reverse value is now: "); Serial.println(reverse);
 }
+void segmentChange() {
+  segmentThread.enabled = false;
+}
