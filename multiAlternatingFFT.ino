@@ -118,4 +118,9 @@ void segmentChange() {
     HEIGHT = NUM_PIXELS/10;
     SEG = NUM_PIXELS/6;
   }
+    // Ok let reset the timer to a different random time,  surprise us.
+  int randNumber = random(3,10);
+  segmentThread.setInterval(randNumber * MILLISECONDS);
+//  Serial.print("Callback: Segment Change will be in : "); Serial.println(randNumber);
+  segmentThread.enabled = true;
 }
