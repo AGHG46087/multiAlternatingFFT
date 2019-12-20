@@ -51,6 +51,19 @@ Thread segmentThread = Thread();
 ThreadController VU_Controller = ThreadController();
 
 void setup() {
+  strip.begin();
+  strip.show(); // all pixels to 'off'
+  Serial.begin(57600); // We all know the drill on the log stuff.
+
+    // if analog input pin 0 is unconnected, random analog
+    // noise will cause the call to randomSeed() to generate
+    // different seed numbers each time the sketch runs.
+    // randomSeed() will then shuffle the random function.
+    // Special treat to randomize 6 or 10 pattern seconds
+  randomSeed(analogRead(0));
+  int randNumber = random(3,10);
+//  Serial.print("init: Segment Change will be in : "); Serial.println(randNumber);
+
 
 }
 
