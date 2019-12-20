@@ -13,3 +13,11 @@
 #include <Thread.h>
 #include <ThreadController.h>
 
+#define AUDIOPIN A5
+#define NUM_PIXELS 60
+#define LED_PIN  6
+#define NUM_FREQS 13
+#define HUE_STEP_INCREMENT 20
+#define HUE_MAX 255
+const int MILLISECONDS = 1000;
+const int REVERSE_THREAD_INTERVAL = 5 * MILLISECONDS;  // Seconds
