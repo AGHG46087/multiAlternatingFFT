@@ -12,4 +12,17 @@ Download the project, compile the the code with the arduino compiler and deploy 
 
 You will need to accomodate the LED strips that you are using and load the appropriate libraries outlined in the code.  But I suspect you know that one already.  Enjoy!
 
+## Schematic Diagram
+![Schematic Diagram](https://github.com/AGHG46087/multiAlternatingFFT/blob/master/vu_schematic.jpg "Schematic Diagram")
+
+
+## Wiring Diagram
+![Wiring Diagram](https://github.com/AGHG46087/multiAlternatingFFT/blob/master/vu_wiring.jpg "Wiring Diagram")
+
+
+## Shield Diagram
+![Shield Diagram](https://github.com/AGHG46087/multiAlternatingFFT/blob/master/vu_shield.jpg "Shield Diagram")
+
+
+ 
 
