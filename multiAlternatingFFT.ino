@@ -64,6 +64,18 @@ void setup() {
   int randNumber = random(3,10);
 //  Serial.print("init: Segment Change will be in : "); Serial.println(randNumber);
 
+    // Here is my Thread setup
+  reverseThread.onRun(reverseToggle);
+  reverseThread.setInterval(REVERSE_THREAD_INTERVAL);
+
+  segmentThread.onRun(segmentChange);
+  segmentThread.setInterval(randNumber * MILLISECONDS);
+
+  VU_Controller.add(&reverseThread);
+  VU_Controller.add(&segmentThread);
+
+  
+  delay(3000);   // SPOOL UP TIME 
 
 }
 
