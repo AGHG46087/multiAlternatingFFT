@@ -39,3 +39,14 @@ bool segmentOne = true;  // Segment one is true, segment two is false.
 
 int offsetGreenHue = 30;
 int offsetBlueHue = 150;
+
+// Just allocate here, since we need a global declaration
+// We are going to set it as a standard object rather than a pointer to a object. Difference is dot notation.
+//Thread* reverseThread = new Thread(); 
+Thread reverseThread = Thread(); 
+Thread segmentThread = Thread();
+
+// We are doing a complete controller in the case I decide to add new Threads in the future it will be ready.
+// With just one it is overkill, but easier setup now rather than later.
+ThreadController VU_Controller = ThreadController();
+
