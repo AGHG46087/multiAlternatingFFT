@@ -81,6 +81,27 @@ void setup() {
 
 void loop() {
 
+    /* 
+     *  Frequency Sprectum this bad boy
+     * 1. data array
+     * 2. imaginary number array
+     * 3. FFT requires samples in power of two, we have a 128 so in our case (2^7 == 128)
+     * 4. Invert, We will always say false here
+     */ 
+  fix_fft(data,im,7,0);  
+
+  for (i=0; i< 64;i++){                                      
+    data[i] = sqrt(data[i] * data[i] + im[i] * im[i]);  // this gets the absolute value of the values in the array, so we're only dealing with positive numbers
+  };     
+  
+  
+    // average bars together
+  for (i=0; i<14; i++) {
+    data_avgs[i] = data[i*4] + data[i*4 + 1] + data[i*4 + 2] + data[i*4 + 3];   // average together 
+    data_avgs[i] = map(data_avgs[i], 0, 30, 0, HEIGHT);                         // remap values
+  }
+  
+  
   offsetGreenHue += HUE_STEP_INCREMENT;
   offsetBlueHue += HUE_STEP_INCREMENT;
   if (offsetGreenHue >= HUE_MAX) offsetGreenHue = 0;
