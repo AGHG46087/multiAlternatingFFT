@@ -50,3 +50,10 @@ Thread segmentThread = Thread();
 // With just one it is overkill, but easier setup now rather than later.
 ThreadController VU_Controller = ThreadController();
 
+void setup() {
+
+}
+
+void loop() {
+
+}
