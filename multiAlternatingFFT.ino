@@ -3,9 +3,9 @@
  * changes from a 6x10 graph to a 10x6 graph - bottom up and top down
  * FFT for LED sequrntial Strip, that could be used in horizonal or even vertical plane
  * by Hans-Jurgen Greiner
- * 2019
+ * January 2019
  * 
- * base code based on FFT library and code from the Arduino forums
+ * based on FFT library and code from the Arduino forums
  * 
  */
 #include <Adafruit_NeoPixel.h>
@@ -21,6 +21,8 @@
 #define HUE_MAX 255
 const int MILLISECONDS = 1000;
 const int REVERSE_THREAD_INTERVAL = 5 * MILLISECONDS;  // Seconds
+int HEIGHT = NUM_PIXELS/10;
+int SEG = NUM_PIXELS/6;
 
 long lclTime = millis();
 
@@ -51,6 +53,7 @@ Thread segmentThread = Thread();
 ThreadController VU_Controller = ThreadController();
 
 void setup() {
+  
   strip.begin();
   strip.show(); // all pixels to 'off'
   Serial.begin(57600); // We all know the drill on the log stuff.
@@ -76,13 +79,12 @@ void setup() {
 
   
   delay(3000);   // SPOOL UP TIME 
-
 }
+
 
 void loop() {
   int ledIndex = 0;
   int lclVal = 0;
-
 
   VU_Controller.run(); // hit the Thread Controller run method.
 
@@ -119,6 +121,8 @@ void loop() {
   }
   
   
+  
+    // set LoLShield
   offsetGreenHue += HUE_STEP_INCREMENT;
   offsetBlueHue += HUE_STEP_INCREMENT;
   if (offsetGreenHue >= HUE_MAX) offsetGreenHue = 0;
